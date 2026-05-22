@@ -1,3 +1,8 @@
+variable "grafana_admin_password" {
+  type        = string
+  description = "Mot de passe admin Grafana"
+}
+
 terraform {
   required_providers {
     docker = {
@@ -84,12 +89,16 @@ resource "docker_container" "prometheus" {
 }
 
 ########################
-# GRAFANA
+# GRAFANA IMAGE
 ########################
 
 resource "docker_image" "grafana" {
   name = "grafana/grafana"
 }
+
+########################
+# GRAFANA
+########################
 
 resource "docker_container" "grafana" {
   name  = "grafana"
@@ -103,7 +112,12 @@ resource "docker_container" "grafana" {
     internal = 3000
     external = 3000
   }
+
+  env = [
+    "GF_SECURITY_ADMIN_PASSWORD=${var.grafana_admin_password}"
+  ]
 }
+
 
 ########################
 # SURICATA
