@@ -1,0 +1,24 @@
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.*
+crash.log
+crash.*.log
+
+# Variables sensibles
+*.tfvars
+*.tfvars.json
+
+# Terraform lock
+# Garde ce fichier si tu travailles en équipe
+# Sinon tu peux le commenter
+# .terraform.lock.hcl
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+suricata/logs/
+suricata/logs/
