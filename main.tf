@@ -115,7 +115,7 @@ resource "docker_image" "suricata" {
 
 resource "docker_container" "suricata" {
 
-  name  = "suricata"
+  name = "suricata"
 
   image = docker_image.suricata.image_id
 
@@ -125,21 +125,21 @@ resource "docker_container" "suricata" {
   ]
 
   networks_advanced {
-      name = docker_network.monitoring.name
+    name = docker_network.monitoring.name
   }
 
   capabilities {
-      add = ["NET_ADMIN","NET_RAW"]
+    add = ["NET_ADMIN", "NET_RAW"]
   }
 
   volumes {
-      host_path="/root/devops-project/terraform/suricata/logs"
-      container_path="/var/log/suricata"
+    host_path      = "/root/devops-project/terraform/suricata/logs"
+    container_path = "/var/log/suricata"
   }
 
   volumes {
-   host_path="/root/devops-project/terraform/suricata/rules"
-   container_path="/var/lib/suricata/rules"
+    host_path      = "/root/devops-project/terraform/suricata/rules"
+    container_path = "/var/lib/suricata/rules"
   }
 
 }
@@ -149,22 +149,22 @@ resource "docker_container" "suricata" {
 ########################
 
 resource "docker_image" "loki" {
-  name="grafana/loki"
+  name = "grafana/loki"
 }
 
 resource "docker_container" "loki" {
 
-  name="loki"
+  name = "loki"
 
-  image=docker_image.loki.image_id
+  image = docker_image.loki.image_id
 
   networks_advanced {
-      name=docker_network.monitoring.name
+    name = docker_network.monitoring.name
   }
 
   ports {
-      internal=3100
-      external=3100
+    internal = 3100
+    external = 3100
   }
 
 }
@@ -174,37 +174,37 @@ resource "docker_container" "loki" {
 ########################
 
 resource "docker_image" "promtail" {
- name="grafana/promtail"
+  name = "grafana/promtail"
 }
 
 resource "docker_container" "promtail" {
 
- name="promtail"
+  name = "promtail"
 
- image=docker_image.promtail.image_id
+  image = docker_image.promtail.image_id
 
- networks_advanced {
-     name=docker_network.monitoring.name
- }
+  networks_advanced {
+    name = docker_network.monitoring.name
+  }
 
- volumes {
+  volumes {
 
-   host_path="/root/devops-project/terraform/promtail"
-   container_path="/etc/promtail"
+    host_path      = "/root/devops-project/terraform/promtail"
+    container_path = "/etc/promtail"
 
- }
+  }
 
- volumes {
+  volumes {
 
-   host_path="/root/devops-project/terraform/suricata/logs"
-   container_path="/var/log/suricata"
+    host_path      = "/root/devops-project/terraform/suricata/logs"
+    container_path = "/var/log/suricata"
 
- }
+  }
 
- command=[
+  command = [
 
- "-config.file=/etc/promtail/promtail-config.yml"
+    "-config.file=/etc/promtail/promtail-config.yml"
 
- ]
+  ]
 
 }
